@@ -1,14 +1,18 @@
 #!/bin/bash
 
 check_hashes() {
+    echo "Hash for the password you entered"
 	echo $password
+	echo
+	echo "Hash that was stored in the program"
 	echo $storedPassword
   if [ "$password" == "$storedPassword" ] 
   then
-    echo "matches in function"
-    return 0
+    funcResult="0"
+  else
+    funcResult="1"
   fi
-  return 1
+  
 }
 
 echo "SHA256 account system example"
@@ -25,11 +29,14 @@ do
 	   read -p "Username: " username
 	   read -p "Password: " password 
 	   password=$( echo $password | sha256sum )
-	   passwordMatch=check_hashes
-	   if [ $passwordMatch == 0 ] 
+	   match="0"
+	   clear
+	   check_hashes
+	   echo
+	   if [ "$match" == "$funcResult" ]
 	   then
 	     echo "Hashes match"
-     	   else
+       else
   	     echo "Hashes don't match!"
 	   fi 
            break;;
